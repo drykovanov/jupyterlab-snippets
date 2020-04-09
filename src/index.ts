@@ -3,21 +3,13 @@ import {
   JupyterFrontEndPlugin
 } from "@jupyterlab/application";
 
-import { PathExt } from "@jupyterlab/coreutils";
-
 import { IMainMenu } from "@jupyterlab/mainmenu";
 
 import { INotebookTracker, NotebookActions } from "@jupyterlab/notebook";
 
-import { CommandRegistry } from '@lumino/commands';
+import { CommandRegistry } from '@phosphor/commands';
 
-import {
-  MenuSvg,
-  pythonIcon,
-  terminalIcon,
-  textEditorIcon,
-  folderIcon,
-} from '@jupyterlab/ui-components';
+import { Menu } from '@phosphor/widgets'
 
 import { listSnippets, Snippet, fetchSnippet } from "./snippets";
 
@@ -58,7 +50,7 @@ function toTree(snippets: Snippet[]) {
  * @param path The current path in the tree.
  */
 function createMenu(commands: CommandRegistry , tree: Tree, path: string[] = []) {
-  const menu = new MenuSvg({ commands });
+  const menu = new Menu({ commands });
   for (const [name, map] of tree.entries()) {
     const fullpath = path.concat(name);
     if (map.size === 0) {
@@ -69,7 +61,7 @@ function createMenu(commands: CommandRegistry , tree: Tree, path: string[] = [])
     } else {
       const submenu = createMenu(commands, map, path.concat(name));
       submenu.title.label = name;
-      submenu.title.icon = folderIcon;
+      // submenu.title.icon = folderIcon;
       menu.addItem({type: 'submenu', submenu});
     }
   }
@@ -99,16 +91,6 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     commands.addCommand(CommandIDs.open, {
       label: args => args['label'] as string,
-      icon: args => {
-        const ext = PathExt.extname(args['label'] as string);
-        if (ext === '.py') {
-          return pythonIcon;
-        }
-        if (ext === '.sh') {
-          return terminalIcon;
-        }
-        return textEditorIcon;
-      },
       execute: async args => {
         const path = args['path'] as string[];
         const response = await fetchSnippet(path);
