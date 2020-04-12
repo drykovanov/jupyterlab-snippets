@@ -25,30 +25,24 @@
     "url": "https://github.com/QuantStack/jupyterlab-snippets.git"
   },
   "scripts": {
-    "build": "jlpm run build:lib",
-    "build:labextension": "cd jupyterlab-snippets && rimraf labextension && mkdirp labextension && cd labextension && npm pack ../..",
-    "build:lib": "tsc",
-    "build:all": "jlpm run build:labextension",
-    "clean": "jlpm run clean:lib",
-    "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
-    "clean:labextension": "rimraf jupyterlab-snippets/labextension",
-    "clean:all": "jlpm run clean:lib && jlpm run clean:labextension",
-    "prepare": "jlpm run clean && jlpm run build",
+    "build": "tsc",
+    "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
+    "prepare": "npm run clean && npm run build",
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "~1.2.1",
-    "@jupyterlab/apputils": "~1.2.1",
-    "@jupyterlab/coreutils": "~3.2.0",
+    "@jupyterlab/application": "^1.1.2",
+    "@jupyterlab/apputils": "^1.1.2",
+    "@jupyterlab/coreutils": "^3.1.0",
     "@jupyterlab/mainmenu": "~1.2.1",
-    "@jupyterlab/notebook": "~1.2.2",
-    "@jupyterlab/services": "~4.2.0",
+    "@jupyterlab/notebook": "^1.1.2",
+    "@jupyterlab/services": "^4.1.1",
     "@phosphor/commands": "^1.7.0",
     "@phosphor/widgets": "^1.9.0"
   },
   "devDependencies": {
     "mkdirp": "^0.5.1",
-    "rimraf": "^2.6.1",
+    "rimraf": "^3.0.0",
     "typescript": "~3.7.2"
   },
   "sideEffects": [
