@@ -9,7 +9,10 @@ import tornado
 
 class SnippetsLoader:
     def __init__(self):
-        self.snippet_paths = ['/home/jupyter/snippets']
+        self.snippet_paths = jupyter_path("snippets")
+        if 'SNIPPETS_PATH' in os.environ:
+            self.snippet_paths = [os.environ['SNIPPETS_PATH']] + self.snippet_paths
+        print(f'jupyterlab-snippets: snippet_paths = {self.snippet_paths}')
 
     def collect_snippets(self):
         snippets = []
